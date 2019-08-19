@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>indexOf</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+  function indexOf(array, seachElement, fromIndex) {
+    var startIndex = 0;
+    var endIndex = array.length;
+
+    if (fromIndex) {
+      // If fromIndex is a negative number
+      if (fromIndex < 0) {
+        startIndex = endIndex + fromIndex;
+      }
+      else {
+        startIndex = fromIndex;
+      }
+    }
+
+    for (var i = startIndex; i < array.length; i++) {
+      if (array[i] === seachElement) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // concat(searchElement[, fromIndex]);
+
+  // Return value:
+    // The first index of the element in the array; -1 if not found.
+
+  // Tests:
+    // Example 1: It should return the first index of the provided searchElement in the array.
+    // Example 2: It should return the index of the provided fromIndex passed in as an argument.
+    // Example 3: It should return -1 if the provided fromIndex is greater than or equal to the arrays length.
+    // Example 4: It should return -1 if the index of the provided searchElement is not found.
+    // Example 5: If the provided fromIndex value is a negative number, it is taken as the offset from the end of the array.
+
+
+
+  tests({
+
+    'It should return the first index of the provided searchElement in the array.': function() {
+      var array = ['a','b','c','b'];
+      var returnedIndex = indexOf(array, 'b');
+      eq(returnedIndex, 1);
+      eq(returnedIndex !== 3, true);
+    },
+
+    'It should return the index of the provided fromIndex passed in as an argument.': function() {
+      var array = ['a','b','c','b'];
+      var returnedIndex = indexOf(array, 'b', 2);
+      eq(returnedIndex, 3);
+      eq(returnedIndex !== 1, true);
+    },
+
+    'It should return -1 if the provided fromIndex is greater than or equal to the arrays length.': function() {
+      var array = ['a','b','c'];
+      var returnedIndex = indexOf(array, 'b', 3);
+      eq(returnedIndex, -1);
+    },
+
+    'It should return -1 if the index of the provided searchElement is not found.': function() {
+      var array = ['a','b','c'];
+      var returnedIndex = indexOf(array, 'd');
+      eq(returnedIndex, -1);
+    },
+
+    'If the provided fromIndex value is a negative number, it is taken as the offset from the end of the array.': function() {
+      var array = ['a','b','c'];
+      var returnedIndex = indexOf(array, 'b', -2);
+      eq(returnedIndex, 1);
+    },
+
+  });
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Concat</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // concat(array, [value1[, value2[, ...[, valueN]]]]);
+
+  // Return value:
+    // A new Array instance.
+
+  // Tests:
+    // Example 1: It should return an array.
+    // Example 2: It should return a new array.
+    // Example 3: It should return a new array where all the array arguments are merged into one newArray.
+    // Example 4: It should copy strings into the new array.
+    // Example 5: It should copy numbers into the new array.
+    // Example 6: It should copy booleans into the new array.
+    // Example 7: It should copy object references into the new array.
+
+    function concat(initialArray) {
+      var concatArray = [];
+      var forArray = [];
+      var obj = {};
+
+      for (var i = 0; i < arguments.length; i++) {
+
+        if (Array.isArray(arguments[i])) {
+          forArray = arguments[i];
+
+          for (var j = 0; j < forArray.length; j++) {
+            concatArray.push(forArray[j]);
+          }
+        }
+
+        else if(typeof(object)) {
+          obj = arguments[i];
+          concatArray.push(obj);
+        }
+
+        else if(typeof(number) || typeof(string) || typeof(boolean)) {
+          concatArray.push(arguments[i]);
+        }
+
+      }
+
+      return concatArray;
+    }
+
+  tests({
+
+    'It should return an array.': function() {
+      var concatArray = concat([1],[1]);
+      eq(Array.isArray(concatArray), true);
+    },
+
+    'It should return a new array.': function() {
+      var initialArray = [1];
+      var concatArray = concat(initialArray);
+      eq(initialArray !== concatArray, true);
+    },
+
+    'It should return a new array where all the array arguments are merged into one newArray.': function() {
+      var concatArray = concat([1],[2,3],['1']);
+      eq(concatArray.length, 4);
+      eq(concatArray[1], 2);
+      eq(concatArray[3], '1');
+    },
+
+    'It should copy strings into the new array.': function() {
+      var concatArray = concat('1');
+      eq(concatArray[0], '1');
+    },
+
+    'It should copy numbers into the new array.': function() {
+      var concatArray = concat(1);
+      eq(concatArray[0], 1);
+    },
+
+    'It should copy booleans into the new array.': function() {
+      var concatArray = concat(true, false);
+      eq(concatArray[0], true);
+      eq(concatArray[1], false);
+    },
+
+    'It should copy object references into the new array.': function() {
+      var concatArray = concat({0:2});
+      eq(concatArray.length, 1);
+      eq(concatArray[0][0], 2);
+    },
+
+  });
+
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Some</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+    // function some(array, callback, thisArg) {
+    //   var someCallback = callback;
+    //
+    //   if (thisArg) {
+    //     someCallback = callback.bind(thisArg);
+    //   }
+    //
+    //   for (var i = 0; i < array.length; i++) {
+    //     if (i in array) {
+    //       if (someCallback(array[i], i, array) === true) {
+    //         return true;
+    //       }
+    //     }
+    //   }
+    //
+    //   return false;
+    // }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // some(array, callback, [thisArg]);
+
+  // Callback parameters:
+    // currentElement
+    // currentIndex
+    // initialArray
+
+  // Return value:
+    // True if the callback function returns a truthy value for at least one element in the array. Otherwise, false.
+
+  // Tests:
+    // Example 1: It should run the callback for each element in the array.
+    // Example 2: The callback should have access to the currentElement processed in initialArray.
+    // Example 3: The callback should have access to the currentIndex processed in initialArray.
+    // Example 4: The callback should have access to the initialArray.
+    // Example 5: It should have an optional object to use as this when running the callback.
+    // Example 6: The callback should only run if the element is assigned a value.
+    // Example 7: It should return a truthy value if callback does not return a false value.
+    // Example 8: If the callback returns at least one truthy element, return true.
+    // Example 9: If the array is empty, return false;
+
+
+  function some(array, callback, thisArg) {
+    var someCallback = callback;
+
+    if (thisArg) {
+      someCallback = callback.bind(thisArg);
+    }
+
+    for (var i = 0; i < array.length; i++) {
+      if (i in array) {
+        if (someCallback(array[i], i, array) === true) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  tests({
+
+    'It should run the callback for each element in the array.': function() {
+      var timesCallbackHasRun = 0;
+      some([1,2], function() {
+        timesCallbackHasRun++;
+      });
+      eq(timesCallbackHasRun, 2);
+    },
+
+    'The callback should have access to the currentElement processed in initialArray.': function() {
+      some([2], function(currentElement) {
+        eq(currentElement, 2);
+      });
+    },
+
+    'The callback should have access to the currentIndex processed in initialArray.': function() {
+      some([1], function(currentElement, currentIndex) {
+        eq(currentIndex, 0);
+      });
+    },
+
+    'The callback should have access to the initialArray.': function() {
+      var testArray = [1];
+      some(testArray, function(currentElement, currentIndex, initialArray) {
+        eq(testArray, initialArray);
+      });
+    },
+
+    'It should have an optional object to use as this when running the callback.': function() {
+      some([1], function() {
+        eq(this.name, 'Maurice');
+      }, {name: 'Maurice'});
+    },
+
+    'The callback should only run if the element is assigned a value.': function() {
+      var counter = 0;
+      some([,1], function() {
+        counter++;
+      });
+      eq(counter, 1);
+    },
+
+    'It should return a truthy value if callback does not return a false value.': function() {
+      var returnedValue = some([,1, 2], function(currentElement) {
+        return currentElement < 3;
+      });
+      eq(returnedValue, true);
+    },
+
+    'If the callback returns at least one truthy element, return true.': function() {
+      var returnedValue = some([1, 2], function(currentElement) {
+        return currentElement < 2;
+      });
+      eq(returnedValue, true);
+    },
+
+    'If the array is empty, return false;': function() {
+      var returnedValue = some([], function() {
+      });
+      eq(returnedValue, false);
+    },
+
+  });
+
+
+  </script>
+
+</body>
+</html>

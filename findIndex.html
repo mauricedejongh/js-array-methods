@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>FindIndex</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+    // function find(initialArray, callback, thisArg) {
+    //
+    //   for (var i = 0; i < initialArray.length; i++) {
+    //     if (callback(initialArray[i], i, initialArray)) {
+    //       returnedElement = initialArray[i];
+    //     }
+    //   }
+    //
+    //  return returnedElement;
+    // });
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // find(array, callback, [thisArg]);
+
+  // Callback parameters:
+    // currentElement
+    // currentIndex
+    // initialArray
+
+  // Return value:
+    // The value of the first element in the array that satisfies the provided testing function. Otherwise, undefined is returned.
+
+  // Tests:
+    // Example 1: It should run the callback for each element in the array.
+    // Example 2: The callback should have access to the currentElement processed in initialArray.
+    // Example 3: The callback should have access to the currentIndex processed in initialArray.
+    // Example 4: The callback should have access to the initialArray.
+    // Example 5: It should have an optional object to use as this when running the callback.
+    // Example 6: When callback returns true, return only that index.
+    // Example 7: If callback does not find an element that evaluates to true, return -1.
+
+  function find(array, callback, thisArg) {
+    var findIndexCallback = callback;
+    var returnedIndex = -1;
+
+    if (thisArg) {
+      findIndexCallback = callback.bind(thisArg);
+    }
+
+    for (var i = 0; i < array.length; i++) {
+      if (findIndexCallback(array[i], i, array)) {
+        return returnedIndex = i;
+      }
+    }
+
+    return returnedIndex;
+  }
+
+  tests({
+
+    'It should run the callback for each element in the array.': function() {
+      var counter = 0;
+      find([1,2], function() {
+        counter++;
+      });
+      eq(counter, 2);
+    },
+
+    'The callback should have access to the currentElement processed in initialArray.': function() {
+      find([2], function(currentElement) {
+        eq(currentElement, 2);
+      });
+    },
+
+    'The callback should have access to the currentIndex processed in initialArray.': function() {
+      find([1], function(currentElement, currentIndex) {
+        eq(currentIndex, 0);
+      });
+    },
+
+    'The callback should have access to the initialArray.': function() {
+      var testArray = [1];
+      find(testArray, function(currentElement, currentIndex, initialArray) {
+        eq(testArray, initialArray);
+      });
+    },
+
+    'It should have an optional object to use as this when running the callback.': function() {
+      find([1], function() {
+        eq(this.name, 'Maurice');
+      }, {name: 'Maurice'});
+    },
+
+    'When callback returns true, immediately return only that index.': function() {
+      var returnedIndex = find([1,2,3], function(currentElement) {
+        return currentElement > 1;
+      });
+      eq(returnedIndex, 1);
+    },
+
+    'If callback does not find an index that evaluates to true, return -1.': function() {
+      var returnedElement = find([1,2], function(currentElement) {
+        return currentElement > 2;
+      });
+      eq(returnedElement, -1);
+    },
+
+  });
+
+
+  </script>
+
+</body>
+</html>

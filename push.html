@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Push</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype
+    // function push(array) {
+      // for (var i = 1; i < array.length; i++) {
+          // array[array.length] = arguments[i];
+      // }
+
+      // return array.length
+    // }
+
+    // ------------------------------------------------- //
+
+    // Function signature:
+      // push(array, element1[, ...[, elementN]])
+
+    // Return value:
+      // The new length property of the object upon which the method was called.
+
+  // Tests:
+    // Example 1: It should append the elements to the end of the array.
+    // Example 2: It should return the new length property of the object upon which the method was called.
+    // Example 3: If no arguments are given when calling the function, return 0;
+
+  function push(array) {
+
+    for (var i = 1; i < arguments.length; i++) {
+      array[array.length] = arguments[i];
+    }
+
+    return array.length;
+  }
+
+  tests({
+
+    'It should append the elements to the end of the array.': function() {
+      var array = [1];
+      var arrayNewLength = push(array, '2', '3');
+      eq(arrayNewLength, 3);
+    },
+
+    'It should return the new length property of the object upon which the method was called.': function() {
+      var array = [];
+      var arrayNewLength = push(array, 1, '2');
+      eq(arrayNewLength, 2);
+    },
+
+    'If no arguments are given when calling the function, return 0;': function() {
+      var array = [];
+      var arrayNewLength = push(array);
+      eq(arrayNewLength, 0);
+    },
+
+  });
+
+
+  </script>
+
+</body>
+</html>
