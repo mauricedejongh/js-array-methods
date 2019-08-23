@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>pop</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+  function pop(initialArray) {
+    var lastElement = 0;
+
+    if (initialArray.length === 0) {
+      lastElement = undefined;
+    }
+    else {
+      // Get last element from the array.
+      lastElement = initialArray[initialArray.length -1];
+
+      // Delete the last element of the array.
+      initialArray.length = initialArray.length -1;
+    }
+
+    return lastElement;
+  }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // pop(array);
+
+  // Return value:
+    // The removed element from the array; undefined if the array is empty.
+
+  // Tests:
+
+    // Example 1: It should remove the last element from the initialArray.
+    // Example 2: It should change the length of the initialArray.
+    // Example 3: It should return the last element from the initialArray.
+    // Example 4: If you call pop() on an empty array, it returns undefined.
+
+  tests({
+
+    'It should remove the last element from the initialArray.': function() {
+      var array = [1,2];
+      var returnedValue = pop(array);
+      eq(array[1] === undefined, true);
+    },
+
+    'It should change the length of the initialArray.': function() {
+      var array = [1,2];
+      var returnedValue = pop(array);
+      eq(array.length, 1);
+    },
+
+    'It should return the last element from the initialArray.': function() {
+      var array = [1,2];
+      var returnedValue = pop(array);
+      eq(returnedValue, 2);
+    },
+
+    'If you call pop() on an empty array, it returns undefined.': function() {
+      var array = [];
+      var returnedValue = pop(array);
+      eq(returnedValue, undefined);
+    },
+
+  });
+
+  </script>
+
+</body>
+</html>

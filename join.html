@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>join</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+  function join(array, separator) {
+    var seperatorString = '';
+    var finalString = '';
+
+    for (var i = 0; i < array.length; i++) {
+
+      if (array.length > 1) {
+        if (array.length -1 === i) {
+          finalString += array[i];
+        }
+        else {
+          if (arguments.length > 1) {
+            seperatorString = separator;
+            finalString += array[i] + seperatorString;
+          }
+          else {
+            seperatorString = ',';
+            finalString += array[i] + seperatorString;
+          }
+        }
+      }
+      else {
+        finalString += array[i];
+      }
+
+    }
+
+    return finalString;
+  }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // join(array[, separator]);
+
+  // Return value:
+    // A string with all array elements joined. If arr.length is 0, the empty string is returned.
+
+  // Tests:
+
+    // Example 1: If no seperator, it should return a string whith all elements of the array seperated by commas.
+    // Example 2: If seperator, it should return a string whith all elements of the array seperated by the specified separator string.
+    // Example 3: If seperator, but empty, it should return a string where all elements are not seperated.
+    // Example 4: It the array has one element, return a string without a seperator.
+    // Example 5: If array.length is 0, an empty string should be returned.
+
+  tests({
+
+    'If no seperator, it should return a string whith all elements of the array seperated by commas.': function() {
+      var returnedValue = join(['Een','Twee', 1]);
+      eq(typeof(returnedValue) === 'string', true);
+      eq(returnedValue, 'Een,Twee,1');
+    },
+
+    'If seperator, it should return a string whith all elements of the array seperated by the specified separator string.': function() {
+      var returnedValue = join(['Een','Twee'], '+');
+      eq(returnedValue, 'Een+Twee');
+    },
+
+    'If empty seperator, it should return a string where all elements are not seperated.': function() {
+      var returnedValue = join(['Een','Twee'], '');
+      eq(returnedValue, 'EenTwee');
+    },
+
+    'It the array has one element, return a string without a seperator.': function() {
+      var returnedValue = join(['Een']);
+      eq(returnedValue, 'Een');
+    },
+
+    'If array.length is 0, an empty string should be returned.': function() {
+      var returnedValue = join([]);
+      eq(returnedValue, '');
+    },
+
+  });
+
+  </script>
+
+</body>
+</html>

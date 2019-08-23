@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>shift</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+  function shift(array) {
+    var firstElement = 0;
+
+    if (array.length === 0) {
+      return firstElement = undefined;
+    }
+    else {
+      firstElement = array[0];
+
+      for (var i = 0; i < array.length-1; i++) {
+        counter = i;
+        counter++
+        array[i] = array[counter];
+      }
+
+      array.length = array.length-1;
+
+      return firstElement;
+    }
+
+  }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // shift(array);
+
+  // Return value:
+    // The removed element from the array; undefined if the array is empty.
+
+  // Tests:
+
+    // Example 1: It should return the first element in the array.
+    // Example 2: It should remove the first element from the array.
+    // Example 3: It should change the length of the array.
+    // Example 4: If the array is empty, undefined is returned.
+
+  tests({
+
+    'It should return the first element in the array.': function() {
+      var array = [1,2];
+      var returnedElement = shift(array);
+      eq(returnedElement, 1);
+    },
+
+    'It should remove the first element from the array.': function() {
+      var array = [1,2,3];
+      shift(array);
+      eq(array[0], 2);
+    },
+
+    'It should change the length of the array.': function() {
+      var array = [1,2,3];
+      shift(array);
+      eq(array.length, 2);
+    },
+
+    'If the array is empty, undefined is returned.': function() {
+      var array = [];
+      var returnedElement = shift(array);
+      eq(returnedElement, undefined);
+    },
+
+  });
+
+  </script>
+
+
+
+</body>
+</html>

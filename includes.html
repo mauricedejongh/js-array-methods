@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>includes</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+  function includes(array, valueToFind, fromIndex) {
+    var boolean = false;
+    var startIndex = 0;
+
+    if (fromIndex) {
+      if (fromIndex < 0) {
+        startIndex = array.length + fromIndex;
+      }
+      else {
+        startIndex = fromIndex;
+      }
+    }
+
+    for (var i = startIndex; i < array.length; i++) {
+      if (array[i] === valueToFind) {
+        return boolean = true;
+      }
+    }
+
+    return boolean;
+  }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // includes(array, valueToFind[, fromIndex]);
+
+  // Return value:
+    // A Boolean which is true if the value valueToFind is found within the array.
+
+  // Tests:
+    // Example 1: It should return true, when the provided valueToFind is found in the array.
+    // Example 2: It should return false, when the provided valueToFind is not found in the array.
+    // Example 3: It should have a fromIndex argument, where fromIndex is the position to begin to search for valueTofind.
+    // Example 4: If fromIndex is a positive value, the search begins at fromIndex.
+    // Example 5: If fromIndex is a negative value, the search begins at array.length + fromIndex.
+    // Example 6A + B: Using -0 as fromIndex should work the same as +0.
+    // Example 7: The false return value should not be equal to 0.
+
+  tests({
+
+    'It should return true, when the provided valueToFind is found in the array.': function() {
+      var returnedBoolean = includes([1,2], 2);
+      eq(returnedBoolean, true);
+    },
+
+    'It should return false, when the provided valueToFind is not found in the array.': function() {
+      var returnedBoolean = includes([1,2], 3);
+      eq(returnedBoolean, false);
+    },
+
+    'It should have a fromIndex argument, where fromIndex is the position to begin to search for valueTofind.': function() {
+      var returnedBoolean = includes([1,2,3], 1, 1);
+      eq(returnedBoolean, false);
+    },
+
+    'If fromIndex is a positive value, the search begins at fromIndex.': function() {
+      var returnedBoolean = includes([1,2,3], 3, 2);
+      eq(returnedBoolean, true);
+    },
+
+    'If fromIndex is a negative value, the search begins at array.length + fromIndex.': function() {
+      var returnedBoolean = includes([1,2], 2, -1);
+      eq(returnedBoolean, true);
+    },
+
+    'A: Using -0 as fromIndex should work the same as +0;': function() {
+      var returnedBoolean = includes([1,2], 2, -0);
+      eq(returnedBoolean, true);
+    },
+
+    'B: Using -0 as fromIndex should work the same as +0;': function() {
+      var returnedBoolean = includes([1,2], 2, +0);
+      eq(returnedBoolean, true);
+    },
+
+    'The false return value should not be equal to 0': function() {
+      var returnedBoolean = includes([1,2], 3);
+      eq(returnedBoolean !== 0, true);
+    },
+
+  });
+
+  </script>
+
+</body>
+</html>
