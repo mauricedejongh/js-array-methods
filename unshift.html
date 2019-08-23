@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>unshift</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+  function unshift(array) {
+    var initialArray = array;
+    var initialLength = array.length;
+    var counter = 0;
+
+    // First add the new elements to the end of the array
+    for (var i = 1; i < arguments.length; i++) {
+      array[array.length] = arguments[i];
+    }
+
+    var newArrayAndInitialArrayLength = array.length + initialLength;
+
+    // Add initialArray after arguments
+    for (var i = array.length; i < newArrayAndInitialArrayLength; i++) {
+      array[array.length] = initialArray[counter];
+      counter++;
+    }
+
+    // Shifts the values at consecutive indexes down with i + initialLength -1
+    for (var i = 0; i < array.length-1; i++) {
+      counter = i + initialLength -1;
+      counter++
+      array[i] = array[counter];
+    }
+
+    // Set length of array equal to length - initialArray length
+    array.length = array.length - initialLength;
+
+    return array.length;
+  }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // unshift(array, element1[, ...[, elementN]]);
+
+  // Parameters
+    // elementN
+
+  // Return value:
+    // The new length property of the object upon which the method was called.
+
+  // Tests:
+
+    // Example 1: It should return the length property of the array.
+    // Example 2: It should add the arguments elements the beginning of the array.
+    // Example 3: It should return the NEW length property of the array.
+
+  tests({
+
+    'It should return the length property of the array.': function() {
+      var returned = unshift([1]);
+      eq(returned, 1);
+    },
+
+    'It should add the arguments elements to the beginning of the array.': function() {
+      debugger;
+      var array = [1,2];
+      unshift(array, 3, 4, 5);
+      eq(array[0], 3);
+      eq(array[1], 4);
+      eq(array[2], 5);
+      eq(array[3], 1);
+      eq(array[4], 2);
+    },
+
+    'It should return the NEW length property of the array.': function() {
+      var returned = unshift([1], 2, 3);
+      eq(returned, 3);
+    },
+
+  });
+
+  </script>
+
+
+
+</body>
+</html>
