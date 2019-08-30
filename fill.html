@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>fill</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+  function fill(array, value, start, end) {
+    var length = array.length;
+
+    if (arguments.length > 2 && arguments.length < 4) {
+      if (start < 0) {
+        start = length + start;
+      }
+
+      for (var i = 0; i < length; i++) {
+        if (i >= start) {
+          array[i] = value;
+        }
+      }
+    }
+    else if (arguments.length > 3) {
+      if (start < 0) {
+        start = length + start;
+      }
+
+      if (end < 0) {
+        end = length + end;
+      }
+
+      for (var i = 0; i < length; i++) {
+        if (i >= start && i < end) {
+          array[i] = value;
+        }
+      }
+    }
+    else {
+      for (var i = 0; i < length; i++) {
+        array[i] = value;
+      }
+    }
+
+    return array;
+  }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // fill(array, value[, start[, end]])
+
+  // Parameters
+    // array
+    // value
+    // start (optional)
+    // end (optional)
+
+  // Return value:
+    // The modified array.
+
+  // Tests:
+    // Example 1: It should return an array.
+    // Example 2: It should return the same array.
+    // Example 3: It should make all items in the array equal to the value argument.
+    // Example 4: If start is set, make all items from that index to the end of the array equal to the given value argument.
+    // Example 5: If end is set, make all items from start to that end of the array equal to the given value argument.
+    // Example 6: If start is negative, it is treated as length + start.
+    // Example 7: If end is negative, it is treated as length + end.
+    // Example 8: When fill gets passed an object, it will copy the reference and fill the array with references to that object.
+
+  tests({
+
+    'It should return an array.': function() {
+      var returnedArray = fill([1]);
+      eq(Array.isArray(returnedArray), true);
+    },
+
+    'It should return the same array.': function() {
+      var array = [1];
+      var returnedArray = fill(array);
+      eq(array !== returnedArray, false);
+    },
+
+    'It should make all items in the array equal to the value argument.': function() {
+      var returnedArray = fill([1,1], 2);
+      eq(returnedArray[0], 2);
+      eq(returnedArray[1], 2);
+    },
+
+    'If begin is set, make all items from that index to the end of the array equal to the given value argument.': function() {
+      var returnedArray = fill([1,1,1], 2, 1);
+      eq(returnedArray[0], 1);
+      eq(returnedArray[1], 2);
+      eq(returnedArray[2], 2);
+    },
+
+    'If end is set, make all items from start to that end of the array equal to the given value argument.': function() {
+      var returnedArray = fill([1,1,1], 2, 1, 2);
+      eq(returnedArray[0], 1);
+      eq(returnedArray[1], 2);
+      eq(returnedArray[2], 1);
+    },
+
+    'If start is negative, it is treated as length + start.': function() {
+      var returnedArray = fill([1,1,1], 2, -2);
+      eq(returnedArray[0], 1);
+      eq(returnedArray[1], 2);
+      eq(returnedArray[2], 2);
+    },
+
+    'If end is negative, it is treated as length + end.': function() {
+      var returnedArray = fill([1,1,1], 2, -2, -1);
+      eq(returnedArray[0], 1);
+      eq(returnedArray[1], 2);
+      eq(returnedArray[2], 1);
+    },
+
+    'When fill gets passed an object, it will copy the reference and fill the array with references to that object.': function() {
+      var returnedArray = fill([{},{},{}], {});
+      returnedArray[0].name = 'Hi';
+      eq(returnedArray[0].name, 'Hi');
+      eq(returnedArray[1].name, 'Hi');
+      eq(returnedArray[2].name, 'Hi');
+    }
+
+  });
+
+  </script>
+
+
+
+</body>
+</html>

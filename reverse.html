@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>reverse</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+  function reverse(array) {
+    var initialLength = array.length;
+    var counter = 0;
+
+    // Copy elements and add it after the initial array length.
+    for (var i = 0; i < initialLength; i++) {
+      array[array.length] = array[i];
+    }
+
+    // Set elements the beginning of the array upwards equal to the elements of the end of the array downwards.
+    for (var i = 0; i < array.length; i++) {
+      counter = array.length-1 - i;
+      array[i] = array[counter];
+    }
+
+    // Delete the double end part of the array.
+    array.length = initialLength;
+
+    return array;
+  }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // fill(array, value[, start[, end]])
+
+  // Parameters
+    // array
+
+  // Return value:
+    // The reversed array.
+
+  // Tests:
+    // Example 1: It should return an array.
+    // Example 2: It should return the same array.
+    // Example 3: The returned array should have the same length as the array argument.
+    // Example 4: It should return an array where the elements are reversed.
+
+  tests({
+
+    'It should return an array.': function() {
+      var returnedArray = reverse([1]);
+      eq(Array.isArray(returnedArray), true);
+    },
+
+    'It should return the same array.': function() {
+      var array = [1];
+      var returnedArray = reverse(array);
+      eq(array === returnedArray, true);
+    },
+
+    'The returned array should have the same length as the array argument.':function() {
+      returnedArray = reverse([1,2,3]);
+      eq(returnedArray.length, 3);
+    },
+
+    'It should return an array where the elements are reversed.':function() {
+      returnedArray = reverse([1,2,3]);
+      eq(returnedArray[0], 3);
+      eq(returnedArray[1], 2);
+      eq(returnedArray[2], 1);
+    },
+
+  });
+
+  </script>
+
+
+
+</body>
+</html>
