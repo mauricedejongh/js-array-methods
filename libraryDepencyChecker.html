@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dependency checker</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+    (function() {
+
+      var libraryStorage = {};
+
+      function librarySystem(libraryName, requiredDependencies, callback) {
+
+        // Save library in storage
+        if (arguments.length > 1) {
+
+          // Iterate through every required depency and check wether the name equals one name in libraryStorage.
+          if (requiredDependencies.length > 0) {
+
+            // Convert libraryStorage to an array
+            var storageArray = Object.keys(libraryStorage);
+
+            for (var i = 0; i < requiredDependencies.length; i++) {
+
+              var depElement = requiredDependencies[i];
+              var counter = 0;
+
+              // Check if depency name equals array element name
+              var depExistence = storageArray.some(function(dependency) {
+                return depElement === storageArray[counter];
+                counter++;
+              });
+
+              // If depExistence is false, throw an error
+              if (depExistence === false) {
+                // Throw error
+              console.error('Dependency not found!');
+              }
+            }
+
+          }
+
+          // Using rest parameters (...) to be able to give a dynamic range of arguments.
+          libraryStorage[libraryName] = callback(...requiredDependencies);
+        }
+        // Load library from storage
+        else {
+          return libraryStorage[libraryName];
+        }
+      }
+
+      window.librarySystem = librarySystem;
+
+    })();
+
+    // librarySystem('app', ['een', 'twee'], function(een, twee) {
+    //   return 'app' + een + twee;
+    // });
+
+    // Run the function and create an library with dependencies
+
+    // librarySystem('testlibrary', ['testlibrary2','testlibrary3'], function() {
+    //
+    // });
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // librarySystem(libraryName, requiredDependencies, callback);
+
+  // Function parameters:
+    // libraryName
+    // requiredDependencies (optional)
+    // callback (optional)
+
+  // Callback parameters:
+    // The same dependency names listed in the array (optional)
+
+  // Callback
+
+  // Return value:
+    // The required objects
+
+  // Tests:
+    // Test 1: It should be able save librarySystem to the window.
+    // Test 2: It should be able
+
+    // It should be able to save librarySystem globally to the window.
+    // It should be able to save libraries to the librarySystem.
+    // It should be able to load a library from the librarySystem.
+    // It should be able to save libraries with dependencies to the librarySystem.
+    // It should be able to load a library with the dependencies from the librarySystem.
+      // It should check if the library has any dependencies.
+        // If not, it just returns the library.
+        // If the library has dependencies, it should check if the required dependencies are saved in the librarySystem.
+          // If the names of the dependencies are not found, it should throw an error.
+          // If passed, it should load the library with the dependencies (It should return the objects).
+
+
+
+  tests({
+
+    'It should be able to save the librarySystem function globally to the window.': function() {
+
+      librarySystem('app', [], function() {
+      });
+
+      eq(typeof(window.librarySystem), 'function');
+    },
+
+    'It should be able to save libraries to the librarySystem.': function() {
+      librarySystem('app', [], function() {
+        var app = {
+          task: 'testing'
+        }
+        return app;
+      });
+
+      var returnedObject = window.librarySystem('app');
+      eq(returnedObject.task, 'testing');
+    },
+
+    'It should be able to load a library from the librarySystem.': function() {
+      librarySystem('app', [], function() {
+        var app = {
+          task: 'testing'
+        }
+        return app;
+      });
+
+      var returnedObject = window.librarySystem('app');
+      eq(typeof(returnedObject), 'object');
+    },
+
+    'It should be able to save libraries with dependencies to the librarySystem.': function() {
+      librarySystem('dependency', [], function() {
+        var dependency = {
+          task: 'testing'
+        }
+        return dependency;
+      });
+      librarySystem('app', ['dependency'], function(dependency) {
+        var app = {
+          task: 'testing'
+        }
+
+        var dependencyLibrary = {
+          app: app,
+          dependency: dependency
+        }
+
+        return dependencyLibrary;
+      });
+    },
+
+    'If dependency does not exist in the librarySystem, throw an error.': function() {
+            debugger;
+      librarySystem('dependency', [], function() {
+        var dependency = {
+          task: 'testing'
+        }
+        return dependency;
+      });
+      librarySystem('app', ['dependency'], function(dependency) {
+        var app = {
+          task: 'testing'
+        }
+
+        var dependencyLibrary = {
+          app: app,
+          dependency: dependency
+        }
+
+        return dependencyLibrary;
+      });
+    }
+
+  });
+
+
+  </script>
+
+</body>
+</html>
