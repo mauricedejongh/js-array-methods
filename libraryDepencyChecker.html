@@ -31,28 +31,18 @@
             var storageArray = Object.keys(libraryStorage);
 
             for (var i = 0; i < requiredDependencies.length; i++) {
-
-              var depElement = requiredDependencies[i];
-              var counter = 0;
-
               // Check if depency name equals array element name
-              var depExistence = storageArray.some(function(dependency) {
-                return depElement === storageArray[counter];
-                counter++;
-              });
-
-              // If depExistence is false, throw an error
-              if (depExistence === false) {
-                // Throw error
-              console.error('Dependency not found!');
+              if (storageArray.includes(requiredDependencies[i] === false)) {
+                // If depExistence is false, throw an error
+                console.error(requiredDependencies[i] + ' not found.');
               }
             }
-
           }
 
           // Using rest parameters (...) to be able to give a dynamic range of arguments.
           libraryStorage[libraryName] = callback(...requiredDependencies);
         }
+
         // Load library from storage
         else {
           return libraryStorage[libraryName];
