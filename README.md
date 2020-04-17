@@ -1,2 +1,2 @@
 # js-array-methods
-Testing Javascript array methods
+Recreating & testing Javascript array methods
