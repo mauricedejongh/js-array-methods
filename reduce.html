@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Reduce</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+
+  <script type="text/javascript" src="simpletest.js"></script>
+  <script>
+
+  // Prototype implementation:
+    // function reduce(array, callback, initialValue) {
+    //   var resultSoFar = initialValue;
+    //
+    //   for (var i = 0; i < array.length; i++) {
+    //     resultSoFar = callback(sumSoFar, array[i], i, array);
+    //   }
+    //
+    //   return resultSoFar;
+    // }
+
+  // ------------------------------------------------- //
+
+  // Function signature:
+    // reduce(array, callback[, initialValue]);
+
+  // Callback parameters:
+    // Accumulator
+    // CurrentValue
+    // CurrentIndex (optional)
+    // SourceArray (optional)
+
+  // Return value:
+    // The single value that results from the reduction.
+
+  // Requirements:
+  /*
+  1. If initialValue, accumulator should be equal to initialValue.
+  2. If initialValue, currentValue should should start with array[0].
+  3. If initialValue, callback will start at index 0.
+
+  4. If no initialValue, accumulator should start with array[0].
+  5. If no initialValue, currentValue should start with array[1].
+  6. If no initialValue, callback will start at index 1.
+
+  7. If array has one element and no initialValue, return the one element without calling callback.
+    // reduce([hole , 1], function(){}) ==> return 1 without calling callback.
+    // reduce([1], function(){}) ==> return 1 without calling callback.
+  8. If array is empty and there is an initialValue, return initialValue without calling callback.
+    // reduce([], function(){}, 0) ==> return 0 without calling callback.
+    // reduce([hole, hole], function(){}, 0) ==> return 0 without calling callback.
+
+  9. It should actually reduce.
+  10. It should exclude holes (e.g. ['', 1]).
+  11. If array is empty and no initialValue, throw TypeError.
+  12. It should pass an array as the fourth argument to the callback.
+  */
+
+  function reduce(array, callback, initialValue, thisArg) {
+    var startingIndex, accumulator;
+    var arrayWithoutHoles = [];
+    var arrayIndexes = Object.keys(array);
+
+    // Exclude holes 1
+    arrayWithoutHoles = array.filter(function(el){
+      return el !== 'undefined';
+    });
+    var array = arrayWithoutHoles;
+
+    // Has initialValue
+    if (arguments.length > 2) {
+      accumulator = initialValue;
+      if (arrayIndexes.length === 0) {
+        return accumulator;
+      }
+      startingIndex = 0;
+    }
+    // No initialValue
+    else {
+      // Array is empty, throw TypeError
+      if (arrayIndexes.length === 0) {
+        throw new TypeError('Reduce of empty array with no initial value');
+      }
+
+      if (arrayIndexes.length === 1) {
+        return array[0];
+      }
+
+      accumulator = array[0];
+      startingIndex = 1;
+    }
+
+    for (var i = startingIndex; i < array.length; i++) {
+      accumulator = callback(accumulator, array[i], i, array);
+    }
+
+    return accumulator;
+  }
+
+  // reduce([1,2,3], function(accumulator, arrayValue) {
+  //   return accumulator + arrayValue;
+  // }, 0);
+
+  tests({
+
+    'If initialValue, accumulator should be equal to initialValue.': function() {
+      reduce([0], function(accumulator){
+        eq(accumulator, 1);
+      }, 1);
+    },
+
+    'If initialValue, currentValue should start with array[0].': function() {
+      reduce([1], function(previousValue, currentValue){
+        eq(currentValue, 1);
+      }, 0);
+    },
+
+    'If initialValue, callback will start at index 0.': function() {
+      reduce([1], function(previousValue, currentValue, currentIndex) {
+        eq(currentIndex, 0);
+      }, 0);
+    },
+
+    'If no initialValue, accumulator should start with array[0].': function() {
+      reduce([0, 1], function(accumulator){
+        eq(accumulator, 0);
+      });
+    },
+
+    'If no initialValue, currentValue should start with array[1].': function() {
+      reduce([0, 1], function(accumulator, currentvalue){
+        eq(currentvalue, 1);
+      });
+    },
+
+    'If no initialValue, callback will start at index 1.': function() {
+      reduce([1, 2], function(previousValue, currentValue, currentIndex) {
+        eq(currentIndex, 1);
+      });
+    },
+
+    'If array is empty and there is an initialValue, return initialValue without calling callback.': function() {
+      var counter = 0;
+      var returnedValue = reduce([,,], function() {
+        counter++;
+      }, 1);
+      eq(counter, 0);
+      eq(returnedValue, 1);
+    },
+
+    'If array has one element and no initialValue, return the one element without calling callback.': function() {
+      var counter = 0;
+      var returnedValue = reduce([,1,,], function() {
+        counter++;
+      });
+      eq(counter, 0);
+      eq(returnedValue, 1);
+    },
+
+    'It should actually reduce.': function() {
+      var returnedValue = reduce(['H','i','!'], function(previousValue, currentValue) {
+        return previousValue + currentValue;
+      });
+      eq(returnedValue, 'Hi!');
+    },
+
+    'It should exclude holes.': function() {
+      var returnedValue = reduce([,,1,,3,], function(previousValue, currentValue) {
+        return previousValue + currentValue;
+      }, 0);
+      eq(returnedValue, 4);
+    },
+
+    'If array is empty and no initialValue, throw TypeError.': function() {
+      var isTypeError = false;
+      try {
+        reduce([], function(){});
+      } catch(e) {
+        isTypeError = (e instanceof TypeError);
+      }
+      eq(isTypeError, true);
+    },
+
+    'It should pass an array as the fourth argument to the callback.': function() {
+      reduce([1, 2, 3], function(previousValue, currentValue, currentIndex, array) {
+        eq(Array.isArray(array), true);
+      });
+    },
+
+  });
+
+  </script>
+
+</body>
+</html>
